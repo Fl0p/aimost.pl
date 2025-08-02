@@ -1,0 +1,37 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  run:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+        fetch-depth: 0
+      
+    - name: Download credentials
+      run: |
+        cat <<EOF > .env
+        ${{ secrets.ENV_FILE }}
+        EOF
+        mkdir -p cloudflared
+        cat <<EOF > cloudflared/credentials.json
+        ${{ secrets.CREDENTIALS_JSON }}
+        EOF
+
+    - name: Stop previous instance
+      run: |
+        ./stop.sh
+
+    - name: Start instance
+      run: |
+        ./start.sh
+
+    - name: Clean up old images
+      run: docker image prune -f 
