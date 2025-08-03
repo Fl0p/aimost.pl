@@ -1,0 +1,641 @@
+{
+  "name": "WroWin_bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e97bcbbf-eef6-49a1-94ff-9c2608c9cf37",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1312,
+        -400
+      ],
+      "id": "c72034f8-b26e-4574-9f18-d35c80b0bea2",
+      "name": "Webhook",
+      "webhookId": "e97bcbbf-eef6-49a1-94ff-9c2608c9cf37",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -864,
+        -224
+      ],
+      "id": "84c0ea40-7698-4abe-ad31-8f491a256668",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1088,
+        -208
+      ],
+      "id": "3dec5b6c-9509-41ef-b5bf-c23f5425c7f2",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cc055923-a0a6-4959-9f14-ad59e8583f7d",
+                    "leftValue": "={{ $json.message.chat.type }}",
+                    "rightValue": "=private",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "private"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "19dd0f6f-5f83-4081-ac8c-d77aefafcd04",
+                    "leftValue": "={{ $json.message.chat.type }}",
+                    "rightValue": "supergroup",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "supergroup"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -192,
+        -208
+      ],
+      "id": "dbe5d3aa-0c44-4f37-a10a-457e68d8c5d7",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// filter up\nconst headers = $json.headers || {}\nconst allowedRanges = [\"91.108.\", \"149.154.\"];\nconst ip = headers[\"cf-connecting-ip\"] || \"\";\nif (!allowedRanges.some(range => ip.startsWith(range))) {\n  throw new Error(`Запрос не от Telegram (IP: ${ip})`);\n}\nconst body = $json.body\nreturn body;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1088,
+        -400
+      ],
+      "id": "b5545db3-7307-40c9-bbb3-184202003d94",
+      "name": "Filter Telegram IP",
+      "alwaysOutputData": false,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_WNR6nscw9V7DhGUf0XeKjtss",
+          "mode": "list",
+          "cachedResultName": "WroWin"
+        },
+        "prompt": "define",
+        "text": "={{ $json.message.text }}",
+        "memory": "threadId",
+        "threadId": "={{ $json.thread_id }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        32,
+        -416
+      ],
+      "id": "7307f193-4ff3-4d40-9da4-be00f011eb9d",
+      "name": "Message an assistant",
+      "credentials": {
+        "openAiApi": {
+          "id": "e9XIiDbekioBjTta",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        432,
+        -352
+      ],
+      "id": "2b2ac523-f4ef-448f-bea1-83302cb73820",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "resource": "assistant",
+        "assistantId": {
+          "__rl": true,
+          "value": "asst_WNR6nscw9V7DhGUf0XeKjtss",
+          "mode": "list",
+          "cachedResultName": "WroWin"
+        },
+        "prompt": "define",
+        "text": "={{ $json.message.text }}",
+        "memory": "threadId",
+        "threadId": "={{ $json.thread_id }}",
+        "options": {
+          "timeout": 10000,
+          "preserveOriginalTools": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        32,
+        16
+      ],
+      "id": "160ad74a-df0a-41d9-9083-3b3b83a652f2",
+      "name": "Message an assistant1",
+      "credentials": {
+        "openAiApi": {
+          "id": "e9XIiDbekioBjTta",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        432,
+        -64
+      ],
+      "id": "4c46e53a-bbc8-4958-a2e7-864d74e8f910",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1088,
+        -16
+      ],
+      "id": "8255691d-7683-430a-a9a6-a816fb1a1e53",
+      "name": "Telegram Trigger",
+      "webhookId": "8e3d2635-d248-4ea8-aa63-77a95604d033",
+      "credentials": {
+        "telegramApi": {
+          "id": "yr6Jy9F7XAcnnEus",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT thread_id \nFROM chat_threads\nWHERE chat_id = {{ $json.message.chat.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -640,
+        -304
+      ],
+      "id": "038ad569-bc61-483e-8804-8c9fd0407ebc",
+      "name": "Find Chat continuation",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "3WVkmOXoD3JP7N06",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -416,
+        -208
+      ],
+      "id": "2c0aee50-1e1c-456f-93ab-e57c76ed0d3e",
+      "name": "Merge with thread_id"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "chat_threads",
+          "mode": "list",
+          "cachedResultName": "chat_threads"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "chat_id": "={{ $json.message.chat.id }}",
+            "thread_id": "={{ $json.threadId }}"
+          },
+          "matchingColumns": [
+            "chat_id"
+          ],
+          "schema": [
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "thread_id",
+              "displayName": "thread_id",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        656,
+        -208
+      ],
+      "id": "575819ce-b6d8-45d0-aafb-0ea2da207c4a",
+      "name": "Save thread_id",
+      "credentials": {
+        "postgres": {
+          "id": "3WVkmOXoD3JP7N06",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "={{ $json.output }}\n`threadId: {{ $json.threadId }}`",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        -16
+      ],
+      "id": "6566e447-ad25-4794-b9ef-c9aae790a087",
+      "name": "Send message to group",
+      "webhookId": "d02b4984-1321-46ac-86dd-fde71c2f5e8a",
+      "notesInFlow": false,
+      "credentials": {
+        "telegramApi": {
+          "id": "yr6Jy9F7XAcnnEus",
+          "name": "Telegram account"
+        }
+      },
+      "notes": "asd"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "={{ $json.output }}\n`threadId: {{ $json.threadId }}`",
+        "additionalFields": {
+          "appendAttribution": false,
+          "disable_web_page_preview": true
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        656,
+        -400
+      ],
+      "id": "debc6db8-8ef9-4bd4-b3cd-1a0c2ebe3284",
+      "name": "Send direct message",
+      "webhookId": "d02b4984-1321-46ac-86dd-fde71c2f5e8a",
+      "credentials": {
+        "telegramApi": {
+          "id": "yr6Jy9F7XAcnnEus",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "update_id": 439400308,
+          "message": {
+            "message_id": 72,
+            "from": {
+              "id": 683020420,
+              "is_bot": false,
+              "first_name": "Flop",
+              "last_name": "Butt",
+              "username": "flopbut",
+              "language_code": "en"
+            },
+            "chat": {
+              "id": 683020420,
+              "first_name": "Flop",
+              "last_name": "Butt",
+              "username": "flopbut",
+              "type": "private"
+            },
+            "date": 1754209021,
+            "text": "Хэй"
+          }
+        }
+      }
+    ],
+    "Telegram Trigger": [
+      {
+        "json": {
+          "update_id": 439400330,
+          "message": {
+            "message_id": 109,
+            "from": {
+              "id": 118929161,
+              "is_bot": false,
+              "first_name": "Flop",
+              "last_name": "Butylkin",
+              "username": "Flopr",
+              "language_code": "en",
+              "is_premium": true
+            },
+            "chat": {
+              "id": 118929161,
+              "first_name": "Flop",
+              "last_name": "Butylkin",
+              "username": "Flopr",
+              "type": "private"
+            },
+            "date": 1754213095,
+            "text": "test"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter Telegram IP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Find Chat continuation",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge with thread_id",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Message an assistant",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "node": "Message an assistant1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Telegram IP": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message an assistant": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Send direct message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save thread_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message an assistant1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Send message to group",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Save thread_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Find Chat continuation": {
+      "main": [
+        [
+          {
+            "node": "Merge with thread_id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge with thread_id": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8b45f36d-6d93-4ea4-9d94-d536cd449dd2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e8455da12ea06fae484af2d67f2b609d653de8198ede3b6b89b35b91bded231c"
+  },
+  "id": "d4rP7MZK0J2OU8Nd",
+  "tags": [
+    {
+      "name": "telegram",
+      "id": "UFZEXI2GHEhrkZXF",
+      "createdAt": "2025-08-03T06:21:01.096Z",
+      "updatedAt": "2025-08-03T06:21:01.096Z"
+    }
+  ]
+}
