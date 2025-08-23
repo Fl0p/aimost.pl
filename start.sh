@@ -23,6 +23,9 @@ if [ ! -f cloudflared/credentials.json ]; then
   exit 1
 fi
 
+echo "🔍 Checking for updates..."
+docker compose pull
+
 # 4️⃣ Start Docker Compose
 echo "🐳 Starting Docker Compose..."
 docker compose up -d --build
