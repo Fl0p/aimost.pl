@@ -1,7 +1,7 @@
-tunnel: ${DOMAIN_NAME}
+tunnel: ${N8N_HOST}
 credentials-file: /etc/cloudflared/credentials.json
 
 ingress:
-  - hostname: ${DOMAIN_NAME}
+  - hostname: ${N8N_HOST}
     service: http://n8n:5678
   - service: http_status:404

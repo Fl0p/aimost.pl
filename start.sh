@@ -13,8 +13,8 @@ fi
 source .env
 
 # 2️⃣ Generate config.yml from template
-echo "🔧 Generating cloudflared config.yml for $DOMAIN_NAME"
-DOMAIN_NAME=$DOMAIN_NAME envsubst < cloudflared/config.yml.template > cloudflared/config.yml
+echo "🔧 Generating cloudflared config.yml for $N8N_HOST"
+N8N_HOST=$N8N_HOST envsubst < cloudflared/config.yml.template > cloudflared/config.yml
 
 # 3️⃣ Check if credentials.json exists
 if [ ! -f cloudflared/credentials.json ]; then
