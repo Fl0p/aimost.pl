@@ -21,21 +21,18 @@ Project for running n8n with access through aimost.pl domain using Cloudflare Tu
 ### 1. Create `.env` file:
 ```bash
 DOMAIN_NAME=example.com
+# n8n
 WEBHOOK_URL=https://n8n.example.com
 N8N_HOST=n8n.example.com
 N8N_PORT=5678
 N8N_BASIC_AUTH_ACTIVE=true
 N8N_BASIC_AUTH_USER=admin@example.com
 N8N_BASIC_AUTH_PASSWORD=supersecret
-
+N8N_ENCRYPTION_KEY=please_set_a_secure_random_key
 # Database
 POSTGRES_DB=n8n
 POSTGRES_USER=n8n
 POSTGRES_PASSWORD=changeme
-
-# n8n
-N8N_ENCRYPTION_KEY=please_set_a_secure_random_key
-
 ```
 
 ### 2. Add Cloudflare credentials:
