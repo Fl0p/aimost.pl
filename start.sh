@@ -2,7 +2,7 @@
 
 set -e
 
-echo "🚀 Starting n8n + Cloudflare Tunnel for aimost.pl"
+echo "🚀 Starting web + n8n + Cloudflare Tunnel for aimost.pl"
 
 # 1️⃣ Check if .env file exists
 if [ ! -f .env ]; then
@@ -13,8 +13,12 @@ fi
 source .env
 
 # 2️⃣ Generate config.yml from template
-echo "🔧 Generating cloudflared config.yml for $N8N_HOST"
-N8N_HOST=$N8N_HOST envsubst < cloudflared/config.yml.template > cloudflared/config.yml
+if [-z "$DOMAIN_NAME"] || [ -z "$WEB_HOST" ] || [ -z "$N8N_HOST" ]; then
+  echo "❌ DOMAIN_NAME, WEB_HOST or N8N_HOST is not set in .env"
+  exit 1
+fi
+echo "🔧 Generating cloudflared config.yml for $WEB_HOST and $N8N_HOST"
+DOMAIN_NAME=$DOMAIN_NAME WEB_HOST=$WEB_HOST N8N_HOST=$N8N_HOST envsubst < cloudflared/config.yml.template > cloudflared/config.yml
 
 # 3️⃣ Check if credentials.json exists
 if [ ! -f cloudflared/credentials.json ]; then
@@ -45,4 +49,4 @@ fi
 echo "📋 Containers status:"
 docker compose ps
 
-echo "✅ $DOMAIN_NAME project started successfully!"
+echo "✅ Project started successfully: $WEB_HOST and $N8N_HOST"

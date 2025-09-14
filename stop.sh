@@ -2,7 +2,7 @@
 
 set -e
 
-echo "🛑 Stopping n8n + Cloudflare Tunnel for aimost.pl"
+echo "🛑 Stopping web + n8n + Cloudflare Tunnel for aimost.pl"
 
 # 0️⃣ Check if .env file exists
 if [ -f .env ]; then
