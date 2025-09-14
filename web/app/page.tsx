@@ -28,9 +28,11 @@ export default function HomePage() {
               Contact
             </a>
           </nav>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-            Get Started
-            <ArrowRight className="ml-2 h-4 w-4" />
+          <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <a href="mailto:flopspm@gmail.com?subject=AImost.pl">
+              Get Started
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
           </Button>
         </div>
       </header>
@@ -40,22 +42,22 @@ export default function HomePage() {
         <div className="container mx-auto text-center max-w-4xl">
           <Badge variant="secondary" className="mb-6 bg-accent text-accent-foreground">
             <Zap className="w-3 h-3 mr-1" />
-            AI-Powered Automation
+            AI-Powered Routine Automation
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-balance bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
-            Transform Your Business with Intelligent Automation
+            Automate Everyday Tasks with Intelligent AI
           </h1>
           <p className="text-xl text-muted-foreground mb-8 text-pretty max-w-2xl mx-auto leading-relaxed">
-            Harness the power of artificial intelligence to streamline operations, eliminate repetitive tasks, and
-            unlock unprecedented efficiency across your entire organization.
+            Let AI handle your repetitive chores. <br />
+            Organize paperwork, reply to messages, schedule, track expenses, and more.
+            Free up time for what matters most.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Start Free Trial
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button size="lg" variant="outline">
-              Watch Demo
+            <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+              <a href="mailto:flopspm@gmail.com?subject=AImost.pl">
+                Let's Go
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
             </Button>
           </div>
         </div>
@@ -65,9 +67,9 @@ export default function HomePage() {
       <section id="features" className="py-20 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">Powerful AI Features</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">Built for People, Freelancers, and Small Teams</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
-              Our comprehensive suite of AI tools designed to revolutionize how you work
+              A simple set of AI tools to save hours every week
             </p>
           </div>
 
@@ -77,9 +79,9 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <Brain className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Smart Process Mining</CardTitle>
+                <CardTitle>Smart Routine Detection</CardTitle>
                 <CardDescription>
-                  Automatically discover and analyze your business processes to identify optimization opportunities
+                  Automatically discover and analyze your recurring tasks to spot time-savers
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -89,9 +91,9 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <Cog className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Workflow Automation</CardTitle>
+                <CardTitle>One-Click Automations</CardTitle>
                 <CardDescription>
-                  Create intelligent workflows that adapt and learn from your business patterns and requirements
+                  Create simple flows for email, invoices, scheduling, and more
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -101,9 +103,9 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <Rocket className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Rapid Deployment</CardTitle>
+                <CardTitle>Set Up in Minutes</CardTitle>
                 <CardDescription>
-                  Get up and running in minutes with our intuitive setup and pre-built automation templates
+                  No coding required—pick a template and start saving time today
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -113,9 +115,9 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <Shield className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Enterprise Security</CardTitle>
+                <CardTitle>Private and Secure</CardTitle>
                 <CardDescription>
-                  Bank-level security with end-to-end encryption and compliance with international standards
+                  Bank-level security and encryption for your personal data
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -125,9 +127,9 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <Users className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Team Collaboration</CardTitle>
+                <CardTitle>Share and Collaborate</CardTitle>
                 <CardDescription>
-                  Enable seamless collaboration with role-based access and real-time process monitoring
+                  Invite family or teammates, assign roles, and work together
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -137,9 +139,9 @@ export default function HomePage() {
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                   <Zap className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>Real-time Analytics</CardTitle>
+                <CardTitle>Time Saved Dashboard</CardTitle>
                 <CardDescription>
-                  Monitor performance with advanced analytics and AI-powered insights for continuous improvement
+                  See hours saved and track impact with simple, real-time insights
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -156,16 +158,11 @@ export default function HomePage() {
             journey today and experience the power of intelligent workflows.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="bg-background text-foreground hover:bg-background/90">
-              Start Free Trial
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent"
-            >
-              Schedule Demo
+            <Button asChild size="lg" variant="secondary" className="bg-background text-foreground hover:bg-background/90">
+              <a href="mailto:flopspm@gmail.com?subject=AImost.pl">
+                Go Now
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </a>
             </Button>
           </div>
         </div>
@@ -192,7 +189,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 AImost.pl. All rights reserved. Empowering businesses through intelligent automation.</p>
+            <p>&copy; 2025 AImost.pl. All rights reserved.</p>
           </div>
         </div>
       </footer>
