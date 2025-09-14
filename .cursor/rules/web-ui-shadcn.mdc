@@ -1,0 +1,14 @@
+---
+globs: web/components/**,web/app/**/*.tsx
+description: shadcn/ui usage patterns and component conventions in web/
+---
+
+## UI System (shadcn/ui)
+
+- **Components location**: All primitives are under `web/components/ui`. Reuse before creating new primitives.
+- **Design tokens**: Colors, radius, and CSS variables are defined in [globals.css](mdc:web/app/globals.css). Prefer tokens over hardcoded values.
+- **Theme**: Use [theme-provider.tsx](mdc:web/components/theme-provider.tsx) to enable `next-themes` when needed. Add `'use client'` for client trees.
+- **Variants & class names**: Use `class-variance-authority` in UI components and `cn` from [utils.ts](mdc:web/lib/utils.ts) to merge classes.
+- **Icons**: Use `lucide-react`; keep icon size via Tailwind `h-* w-*` utilities.
+- **Accessibility**: Follow Radix accessibility patterns; ensure focus styles and aria labels where relevant.
+

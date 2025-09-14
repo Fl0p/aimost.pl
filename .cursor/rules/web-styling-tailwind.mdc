@@ -1,0 +1,14 @@
+---
+globs: web/app/**/*.css,web/app/**/*.tsx,web/components/**/*.tsx
+description: Tailwind v4, CSS variables, theming and best practices in web/
+---
+
+## Styling & Theming (Tailwind v4)
+
+- **Global CSS**: Use [globals.css](mdc:web/app/globals.css) as the single global stylesheet. Avoid adding new global files unless necessary.
+- **Tailwind v4**: Using `@import "tailwindcss"` and `@theme` tokens; prefer utilities and variants over custom CSS.
+- **Dark mode**: Use the `dark` variant defined via `@custom-variant dark` in [globals.css](mdc:web/app/globals.css). Toggle with a `.dark` class on `<html>`.
+- **Design tokens**: Reference CSS variables (e.g., `--background`, `--primary`) instead of hardcoded colors.
+- **Class merging**: Use `cn` util from [utils.ts](mdc:web/lib/utils.ts) to combine classes.
+- **Radius & tokens**: Respect `--radius-*` tokens from `@theme inline` defined in [globals.css](mdc:web/app/globals.css).
+

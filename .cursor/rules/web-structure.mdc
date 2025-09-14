@@ -1,0 +1,16 @@
+---
+globs: web/**
+description: Guidance for Next.js App Router structure and entry points in web/
+---
+
+## Web App Structure (Next.js App Router)
+
+- **Entry layout**: The root layout is [layout.tsx](mdc:web/app/layout.tsx). It sets fonts, analytics, and imports global styles from [globals.css](mdc:web/app/globals.css).
+- **Home page**: The landing page is [page.tsx](mdc:web/app/page.tsx).
+- **Add routes**: Create new routes under `web/app/<route>/page.tsx`. Layout nesting is supported via `web/app/<route>/layout.tsx`.
+- **Server Components by default**: Components are React Server Components unless a file begins with `'use client'`.
+- **Global styles**: Primary global stylesheet is [globals.css](mdc:web/app/globals.css). Prefer utility classes over new global CSS files.
+- **Assets**: Public assets live under `web/public`. Use Next `Image` for images.
+- **Config**: Next config is [next.config.mjs](mdc:web/next.config.mjs). TypeScript config is [tsconfig.json](mdc:web/tsconfig.json).
+- **Scripts**: Dev/build scripts are defined in [package.json](mdc:web/package.json).
+

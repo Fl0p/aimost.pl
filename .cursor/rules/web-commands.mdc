@@ -1,0 +1,14 @@
+---
+globs: web/package.json
+description: Common scripts and commands for web/
+---
+
+## Commands
+
+- **Development**: `pnpm --filter ./web dev` or from `web/` run `pnpm dev`
+- **Build**: `pnpm --filter ./web build` or from `web/` run `pnpm build`
+- **Start (production)**: `pnpm --filter ./web start` (after build)
+- **Lint**: `pnpm --filter ./web lint`
+
+See [package.json](mdc:web/package.json) for the authoritative list of scripts.
+
