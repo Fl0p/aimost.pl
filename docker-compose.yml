@@ -2,7 +2,6 @@ services:
   web:
     build:
       context: ./web
-    image: aimost-web:latest
     restart: always
     environment:
       - NODE_ENV=production
