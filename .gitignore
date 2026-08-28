@@ -35,5 +35,9 @@ gitpmoji
 .claude/mcp.json
 .mcp.json
 
+# Local project secrets (n8n API key). Deliberately NOT .env: that file is
+# stored as the ENV_FILE secret and deployed to the production host.
+.secrets.env
+
 # Exported workflows — kept locally, not versioned
 flows/
