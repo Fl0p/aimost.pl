@@ -1,0 +1,6 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+- Project contains .env file (do not try to create or edit it)

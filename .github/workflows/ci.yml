@@ -1,0 +1,68 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  # Lets auto-update.yml reuse this pipeline instead of duplicating its steps.
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v5
+      with:
+        lfs: true
+        fetch-depth: 0
+      
+    - name: Download credentials
+      run: |
+        cat <<'EOF' > .env
+        ${{ secrets.ENV_FILE }}
+        EOF
+        mkdir -p cloudflared
+        cat <<'EOF' > cloudflared/credentials.json
+        ${{ secrets.CREDENTIALS_JSON }}
+        EOF
+
+    - name: Back up the database
+      run: |
+        # n8n runs on :latest, so every deploy can bring a new major version and
+        # its migrations, which do not roll back. Dump before touching anything.
+        set -euo pipefail
+        BACKUP_DIR="$HOME/backups/n8n"
+        mkdir -p "$BACKUP_DIR"
+
+        # Resolve by compose service, not container name: the project name comes
+        # from the checkout directory and has changed before.
+        CID=$(docker compose ps -q postgres || true)
+        if [ -z "$CID" ]; then
+          echo "postgres is not running — nothing to dump (first deploy, or the stack is down)"
+          exit 0
+        fi
+
+        set -a; . ./.env; set +a
+        TS=$(date +%Y%m%d-%H%M%S)
+        docker exec "$CID" pg_dump -U "$POSTGRES_USER" -d "$POSTGRES_DB" \
+          --format=custom > "$BACKUP_DIR/n8n-$TS.dump"
+        echo "dumped $(du -h "$BACKUP_DIR/n8n-$TS.dump" | cut -f1) to $BACKUP_DIR/n8n-$TS.dump"
+
+        # Keep the 8 most recent dumps, roughly two months of weekly updates.
+        ls -1t "$BACKUP_DIR"/n8n-*.dump | tail -n +9 | while read -r old; do
+          echo "pruning $old"
+          rm -f "$old"
+        done
+
+    - name: Stop previous instance
+      run: |
+        ./stop.sh
+
+    - name: Start instance
+      run: |
+        ./start.sh
+
+    - name: Clean up old images
+      run: docker image prune -f 

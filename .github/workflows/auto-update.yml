@@ -1,0 +1,18 @@
+name: Weekly n8n update
+
+# n8n is pinned to :latest, so simply redeploying pulls whatever is current.
+# This runs the normal deploy pipeline on a schedule: stop.sh, then start.sh,
+# which does `docker compose pull` before `up -d`.
+
+on:
+  schedule:
+    # 01:00 UTC on Saturday. GitHub cron has no timezone support, so this is
+    # 03:00 in Warsaw during CEST (summer) and 02:00 during CET (winter).
+    - cron: '0 1 * * 6'
+  # So the update can also be triggered by hand from the Actions tab.
+  workflow_dispatch:
+
+jobs:
+  update:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
