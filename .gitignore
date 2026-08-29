@@ -31,9 +31,10 @@ tmp/
 # ignore gitpmoji directory
 gitpmoji
 
-# Local MCP config — contains an n8n API key
+# Local MCP config. `.mcp.json` itself is tracked — it holds only ${VAR}
+# placeholders and the values live in the shell environment (see AGENTS.md).
+# This alternative location is not, since nothing stops a key landing in it.
 .claude/mcp.json
-.mcp.json
 
 # Local project secrets (n8n API key). Deliberately NOT .env: that file is
 # stored as the ENV_FILE secret and deployed to the production host.

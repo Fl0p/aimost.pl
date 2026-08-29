@@ -81,10 +81,16 @@ both** — the repo copy and the secret (`gh secret set ENV_FILE < .env`).
 
 Per the Cursor rule in `.cursor/rules/project.mdc`: do not create or edit `.env`.
 
+`.mcp.json` configures the n8n MCP server and **is tracked**, because it carries
+no secret: Claude Code expands `${VAR}` in a server's `url` and `headers`, so the
+file holds `${N8N_MCP_URL}` and `${N8N_MCP_TOKEN}` and the real values live in the
+shell environment (exported from `~/.profile`). Miss a variable and the config
+still loads — you get a missing-variable warning and the literal `${VAR}` reaches
+the server, which then fails as an invalid URL or an HTTP 401.
+
 Deliberately untracked: `flows/` (workflow exports belong in n8n and in the
-database dumps, a copy in git only goes stale) and `.mcp.json` (local MCP server
-config, carries an n8n API key). `.gitattributes` routes binaries through Git LFS;
-SVG is excluded on purpose since it diffs as text.
+database dumps, a copy in git only goes stale). `.gitattributes` routes binaries
+through Git LFS; SVG is excluded on purpose since it diffs as text.
 
 ## Known-wrong things, so you don't rediscover them
 
